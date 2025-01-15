@@ -1,26 +1,29 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Button, Col, Form, Row, Stack } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import CreatableSelect from "react-select/creatable";
 import { NoteData, Tag } from "../type";
+import { v4 as uuidV4 } from "uuid";
 // stack is a new component in react-bootstrap 5 that allows you to
 // stack elements vertically with a gap between them
 // .. is used to go back to the previous page
 
 type NoteFormProps = {
   onSubmit: (data: NoteData) => void;
+  onAddTag: (tag: Tag) => void;
+  availableTags: Tag[];
 };
-const NoteForm = ({ onSubmit }: NoteFormProps) => {
+const NoteForm = ({ onSubmit, onAddTag, availableTags }: NoteFormProps) => {
   const titleRef = useRef<HTMLInputElement>(null);
   const markdownRef = useRef<HTMLTextAreaElement>(null);
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
   const handleSubmit = (e: FormDataEvent) => {
     e.preventDefault();
-    onSubmit{{
-        title: titleRef.current!.value,
-        markdown: markdownRef.current!.value,
-        tags: [...selectedTags]
-    }}
+    onSubmit({
+      title: titleRef.current!.value,
+      markdown: markdownRef.current!.value,
+      tags: selectedTags,
+    });
   };
 
   return (
@@ -41,7 +44,27 @@ const NoteForm = ({ onSubmit }: NoteFormProps) => {
           <Col>
             <Form.Group controlId="tags">
               <Form.Label>Tags</Form.Label>
-              <CreatableSelect isMulti value={selectedTags.map(tag => { return {label: tag.label, value: tag.id}})} onChange={tags => {setSelectedTags(tags.map(tag => {return {label: tag.label, id: tag.value}}))}}/>
+              <CreatableSelect
+                isMulti
+                onCreateOption={(label) => {
+                  const newTag = { id: uuidV4(), label };
+                  onAddTag(newTag);
+                  setSelectedTags((prev) => [...prev, newTag]);
+                }}
+                options={availableTags.map((tag) => {
+                  return { label: tag.label, value: tag.id };
+                })}
+                value={selectedTags.map((tag) => {
+                  return { label: tag.label, value: tag.id };
+                })}
+                onChange={(tags) => {
+                  setSelectedTags(
+                    tags.map((tag) => {
+                      return { label: tag.label, id: tag.value };
+                    })
+                  );
+                }}
+              />
             </Form.Group>
           </Col>
         </Row>
