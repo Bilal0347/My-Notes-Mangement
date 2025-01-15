@@ -2,8 +2,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
 import { Routes, Route } from "react-router-dom";
 import NewNotes from "./components/new-notes";
+import { RawNote, Tag } from "./type";
 
 function App() {
+  const [notes, setNotes] = useLocalStorage<RawNote[]>("NOTES", []);
+  const [tags, setTags] = useLocalStorage<Tag[]>("TAGS", []);
   return (
     <Container className="my-4">
       <Routes>
