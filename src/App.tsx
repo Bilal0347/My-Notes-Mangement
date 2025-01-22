@@ -14,11 +14,10 @@ function App() {
 
   const notesWithTags = useMemo(() => {
     return notes.map((note) => {
+      console.log(note);
       return {
         ...note,
-        tags: note.tagsIds.map(
-          (tagId) => tags.find((tag) => tag.id === tagId)!
-        ),
+        tags: note.tagIds.map((tagId) => tags.find((tag) => tag.id === tagId)!),
       };
     });
   }, [notes, tags]);

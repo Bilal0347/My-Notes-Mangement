@@ -3,6 +3,7 @@ import { useState, useMemo } from "react";
 import ReactSelect from "react-select";
 import { Tag, Note } from "../type";
 import { Link } from "react-router-dom";
+import styles from "./note-list.module.css";
 
 type NoteListProps = {
   availableTags: Tag[];
@@ -101,17 +102,10 @@ function NoteCard({ id, title, tags }: NoteCardProps) {
     <Card
       as={Link}
       to={`/${id}`}
-      className={`h-100 text-reset text-decoration-none ${StyleSheet.card}`}
+      className={`h-100 text-reset text-decoration-none ${styles.card}`}
     >
       <Card.Body>
         <Card.Title>{title}</Card.Title>
-        {tags.length > 0 && (
-          <Card.Text>
-            {tags.map((tag) => (
-              <span key={tag.id}>{tag.label}</span>
-            ))}
-          </Card.Text>
-        )}
       </Card.Body>
     </Card>
   );
