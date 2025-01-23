@@ -1,7 +1,7 @@
 import NoteForm from "./note-form";
 import { NoteProps } from "../type";
 
-const NewNotes = ({ onSubmit, onAddTag, availableTags }: NoteProps) => {
+const EditNote = ({ onSubmit, onAddTag, availableTags }: NoteProps) => {
   return (
     <div>
       <h1 className="mb-4">New Notes</h1>
@@ -13,4 +13,4 @@ const NewNotes = ({ onSubmit, onAddTag, availableTags }: NoteProps) => {
     </div>
   );
 };
-export default NewNotes;
+export default EditNote;

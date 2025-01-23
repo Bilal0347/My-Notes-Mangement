@@ -17,8 +17,13 @@ export type NoteData = {
   markdown: string;
   tags: Tag[];
 };
-
 export type Tag = {
   id: string;
   label: string;
+};
+
+export type NoteProps = {
+  onSubmit: (data: NoteData) => void;
+  onAddTag: (tag: Tag) => void;
+  availableTags: Tag[];
 };
