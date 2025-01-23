@@ -1,4 +1,4 @@
-import { Button, Card, Col, Form, Row, Stack } from "react-bootstrap";
+import { Badge, Button, Card, Col, Form, Row, Stack } from "react-bootstrap";
 import { useState, useMemo } from "react";
 import ReactSelect from "react-select";
 import { Tag, Note } from "../type";
@@ -105,7 +105,26 @@ function NoteCard({ id, title, tags }: NoteCardProps) {
       className={`h-100 text-reset text-decoration-none ${styles.card}`}
     >
       <Card.Body>
-        <Card.Title>{title}</Card.Title>
+        <Stack
+          gap={2}
+          className="align-items-center justify-content-center h-100"
+        >
+          <span className="fs-5">{title} </span>
+          {tags.length > 0 && (
+            <Stack
+              gap={1}
+              direction="horizontal"
+              className="justify-content-center flex-wrap"
+            >
+              {tags.map((tag) => (
+                <Badge className="text-truncate" key={tag.id}>
+                  {" "}
+                  {tag.label}
+                </Badge>
+              ))}
+            </Stack>
+          )}
+        </Stack>
       </Card.Body>
     </Card>
   );
