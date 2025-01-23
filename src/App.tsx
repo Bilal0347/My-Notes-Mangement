@@ -9,6 +9,7 @@ import { useMemo } from "react";
 import NoteList from "./components/note-list";
 import NoteShow from "./components/note-show";
 import NoteLayout from "./components/note-layout";
+import EditNote from "./components/edit-note";
 
 function App() {
   const [notes, setNotes] = useLocalStorage<RawNote[]>("NOTES", []);
@@ -32,7 +33,17 @@ function App() {
       ];
     });
   };
-
+  const onUpdateNote = (id: string, { tags, ...data }: NoteData) => {
+    setNotes((prevNotes) => {
+      return prevNotes.map((note) => {
+        if (note.id === id) {
+          return { ...note, ...data, tagIds: tags.map((tag) => tag.id) };
+        } else {
+          return note;
+        }
+      });
+    });
+  };
   const addTag = (tag: Tag) => {
     setTags((prev) => [...prev, tag]);
   };
@@ -55,7 +66,16 @@ function App() {
         />
         <Route path="/:id" element={<NoteLayout notes={notesWithTags} />}>
           <Route index element={<NoteShow />} />
-          <Route path="edit" element={<h1>Edit</h1>} />
+          <Route
+            path="edit"
+            element={
+              <EditNote
+                onSubmit={onUpdateNote}
+                onAddTag={addTag}
+                availableTags={tags}
+              />
+            }
+          />
         </Route>
         <Route path="*" element={<h1>Home</h1>} />
       </Routes>
